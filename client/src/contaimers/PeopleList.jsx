@@ -1,23 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 
+import UserItem from 'components/UserItem.jsx'
+import PeopleSearch from 'components/PeopleSearch.jsx'
+
 class PeopleList extends Component {
 	render() {
 		return (
 			<div class="people-list" id="people-list">
-				<div class="search">
-					<input type="text" placeholder="search" />
-					<i class="fa fa-search"></i>
-				</div>
+				<PeopleSearch />
 				<ul class="list">
-					{this.props.peoples.map((el, key) => 
-						<li class="clearfix" key={key}>
-							<img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_01.jpg" alt="avatar" />
-							<div class="about">
-								<div class="name">{el}</div>
-								<div class="status"><i class="fa fa-circle online"></i> online</div>
-							</div>
-						</li>
+					{this.props.peoples.map(el => 
+						<UserItem key={el.id} name={el.name} />
 					)}
 				</ul>
 			</div>

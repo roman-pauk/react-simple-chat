@@ -1,36 +1,28 @@
 import React from 'react';
+import { connect } from 'react-redux'
+
+import ChatHeader from 'components/ChatHeader.jsx'
+import ChatControl from 'components/ChatControl.jsx'
+import SingleMessage from 'components/SingleMessage.jsx'
 
 class MessagesList extends React.Component {
 	constructor(props) {
 		super(props);
 	}
 
+	componentDidUpdate() {
+		this.chatWrap.scrollTop = this.ul.scrollHeight;
+	}
+
 	render() {
 		return (
 			<div class="chat">
-				<div class="chat-header clearfix">
-					<img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_01_green.jpg" alt="avatar" />
-					
-					<div class="chat-about">
-						<div class="chat-with">Chat with Vincent Porter</div>
-						<div class="chat-num-messages">already 1 902 messages</div>
-					</div>
-					<i class="fa fa-star"></i>
-				</div>
-				
-				<div class="chat-history">
-					<ul>
-						<li class="clearfix">
-							<div class="message-data align-right">
-								<span class="message-data-time" >10:10 AM, Today</span> &nbsp; &nbsp;
-								<span class="message-data-name" >Olia</span> <i class="fa fa-circle me"></i>
-								
-							</div>
-							<div class="message other-message float-right">
-								Hi Vincent, how are you? How is the project coming along?
-							</div>
-						</li>
-						
+				<ChatHeader />				
+				<div ref={chatWrap => this.chatWrap = chatWrap} class="chat-history">
+					<ul ref={ul => this.ul = ul}>
+						{this.props.messages.map(msg => 
+							<SingleMessage key={msg.time} {...msg} />
+						)}					
 						<li>
 							<div class="message-data">
 								<span class="message-data-name"><i class="fa fa-circle online"></i> Vincent</span>
@@ -41,54 +33,21 @@ class MessagesList extends React.Component {
 							</div>
 						</li>
 						
-						<li class="clearfix">
-							<div class="message-data align-right">
-								<span class="message-data-time" >10:14 AM, Today</span> &nbsp; &nbsp;
-								<span class="message-data-name" >Olia</span> <i class="fa fa-circle me"></i>
-								
-							</div>
-							<div class="message other-message float-right">
-								Well I am not sure. The rest of the team is not here yet. Maybe in an hour or so? Have you faced any problems at the last phase of the project?
-							</div>
-						</li>
-						
-						<li>
-							<div class="message-data">
-								<span class="message-data-name"><i class="fa fa-circle online"></i> Vincent</span>
-								<span class="message-data-time">10:20 AM, Today</span>
-							</div>
-							<div class="message my-message">
-								Actually everything was fine. Im very excited to show this to our team.
-							</div>
-						</li>
-						
-						<li>
-							<div class="message-data">
-								<span class="message-data-name"><i class="fa fa-circle online"></i> Vincent</span>
-								<span class="message-data-time">10:31 AM, Today</span>
-							</div>
-							<i class="fa fa-circle online"></i>
-							<i class="fa fa-circle online" style={{color: '#AED2A6'}}></i>
-							<i class="fa fa-circle online" style={{color: '#DAE9DA'}}></i>
-						</li>
-						
 					</ul>
 					
 				</div>
 				
-				<div class="chat-message clearfix">
-					<textarea name="message-to-send" id="message-to-send" placeholder ="Type your message" rows="3"></textarea>
-									
-					<i class="fa fa-file-o"></i> &nbsp;&nbsp;&nbsp;
-					<i class="fa fa-file-image-o"></i>
-					
-					<button>Send</button>
-
-				</div>
+				<ChatControl />
 				
 			</div>
 		);
 	}
 }
 
-export default MessagesList;
+const mapStateToProps = state => {
+	return {
+		messages: state.messages
+	}
+}
+
+export default connect(mapStateToProps)(MessagesList);

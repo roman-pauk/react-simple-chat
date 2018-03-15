@@ -1,4 +1,4 @@
-import { connectedNewUser } from 'actions';
+import { connectedNewUser, disconnectedUser, resiveNewMessage } from 'actions';
 import store from 'store'
 
 export default ((wsUrl) => {
@@ -11,10 +11,17 @@ export default ((wsUrl) => {
 	}
 
 	ws.onmessage = ({data}) => {
-		data = JSON.parse(data)
+		console.log(data);
+		data = JSON.parse(data);
 		switch (data.type) {
 		case 'connected_new_user':
-			dispatch(connectedNewUser(data.data))
+			dispatch(connectedNewUser(data.userName, data.userID))
+			break;
+		case 'disconnected_user':
+			dispatch(disconnectedUser(data.userID))
+			break;
+		case 'message':
+			dispatch(resiveNewMessage(data.data))
 			break;
 		}
 	}
