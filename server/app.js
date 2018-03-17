@@ -29,11 +29,13 @@ wss.on('connection', function(ws){
 			console.log(userName + ' login');
 		}else{
 			console.log(userName + ' say: ' + msg);
+			var index = clients.indexOf(ws);
 			var obj = {
 				time: (new Date()).getTime(),
 				text: msg,
 				author: userName,
-				color: userColor
+				color: userColor,
+				userID: clients[index].userID
 			};
 			var json = JSON.stringify({type:'message', data: obj});
 			for (var i=0; i < clients.length; i++) {

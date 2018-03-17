@@ -14,12 +14,13 @@ export const disconnectedUser = (userID) => {
 	}
 }
 
-export const resiveNewMessage = ({author, text, time, color}) => {
+export const resiveNewMessage = ({author, text, time, color, userID}) => {
 	return {
 		type: Constants.RESIVE_NEW_MESSAGE,
 		author,
 		text,
 		time,
-		color
+		color,
+		userID
 	}
 }

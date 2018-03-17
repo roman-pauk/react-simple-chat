@@ -10,8 +10,8 @@ class PeopleList extends Component {
 			<div class="people-list" id="people-list">
 				<PeopleSearch />
 				<ul class="list">
-					{this.props.peoples.map(el => 
-						<UserItem key={el.id} name={el.name} />
+					{this.props.peoples.map((el, key) => 
+						<UserItem key={el.id} name={el.name} index={key} />
 					)}
 				</ul>
 			</div>

@@ -6,7 +6,8 @@ export default (store = [], action) => {
 			author: action.author,
 			text: action.text,
 			time: action.time,
-			color: action.color
+			color: action.color,
+			userID: action.userID
 		})
 	}
 	return store;

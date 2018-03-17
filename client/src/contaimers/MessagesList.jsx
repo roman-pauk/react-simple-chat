@@ -21,18 +21,8 @@ class MessagesList extends React.Component {
 				<div ref={chatWrap => this.chatWrap = chatWrap} class="chat-history">
 					<ul ref={ul => this.ul = ul}>
 						{this.props.messages.map(msg => 
-							<SingleMessage key={msg.time} {...msg} />
-						)}					
-						<li>
-							<div class="message-data">
-								<span class="message-data-name"><i class="fa fa-circle online"></i> Vincent</span>
-								<span class="message-data-time">10:12 AM, Today</span>
-							</div>
-							<div class="message my-message">
-								Are we meeting today? Project has been already finished and I have results to show you.
-							</div>
-						</li>
-						
+							<SingleMessage key={msg.time} currentID={this.props.currentUser.id} {...msg} />
+						)}						
 					</ul>
 					
 				</div>
@@ -46,8 +36,15 @@ class MessagesList extends React.Component {
 
 const mapStateToProps = state => {
 	return {
-		messages: state.messages
+		messages: state.messages,
+		currentUser: state.peoples[0]
 	}
 }
 
-export default connect(mapStateToProps)(MessagesList);
+const mapDispatchToProps = dispatch => {
+	return {
+		dispatch
+	}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MessagesList);
